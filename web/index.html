@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Integration With Own Server </title>
+</head>
+<body>
+  <h1>Api Integration</h1>
+  <form onsubmit="getWeather(); return false">
+
+    <input type="text" >
+    <button type="submit">Get Weather</button>
+  </form>
+
+<br>
+  <h1 id="cityName">City: Lahore</h1>
+  <h3 id="temperature">Temperature: 10 <sup>o</sup> C</h3>
+  <h3 id="humidity">Humidity: 85%</h3>
+  <h3 id="minMaxTemperature">Min-Max Temperature: 9 <sup>o</sup>C - 15 <sup>o</sup>C</h3>
+
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
