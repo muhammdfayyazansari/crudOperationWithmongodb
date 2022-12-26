@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 let productShema = new mongoose.Schema({
   name: { type: String, required: true },
-  price: String,
+  price: Number,
   category: String,
   description: String,
   createdOn: { type: Date, default: Date.now },
@@ -20,6 +20,7 @@ const port = process.env.PORT || 5001;
 
 app.post("/product", (req, res) => {
   const body = req.body;
+  // console.log("My Product >>> ", body)
   if (!body.name || !body.price || !body.category || !body.description) {
     res.status(400).send(`required parameter missing. example request body: {
       'name': 'value',
@@ -29,28 +30,28 @@ app.post("/product", (req, res) => {
     }`);
     return;
   }
+  productModel.create(
+    {
+      name: body.name,
+      price: body.price,
+      category: body.category,
+      description: body.description,
+    },
+    (err, saved) => {
+      if (!err) {
+        console.log(saved);
+        res.send({
+          message: "your product is saved.",
+        });
+      } else {
+        res.status(500).send({
+          message: "server error",
+        });
+      }
+    }
+  );
 });
 
-productModel.create(
-  {
-    name: body.name,
-    price: body.price,
-    category: body.category,
-    description: body.description,
-  },
-  (err, saved) => {
-    if (!err) {
-      console.log(saved);
-      res.send({
-        message: "your product is saved.",
-      });
-    } else {
-      res.status(500).send({
-        message: "server error",
-      });
-    }
-  }
-);
 app.get("/products", (req, res) => {
   productModel.find({}, (err, data) => {
     if (!err) {
@@ -90,81 +91,81 @@ app.get("/product/:id", (req, res) => {
 });
 
 app.put("/product/:id", async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
   const body = req.body;
-  if (!body.name || !body.price || body.category || body.description) {
+  // console.log("Body >>>", body)
+  if (!body.name || !body.price || !body.category || !body.description) {
     res.status(400).send(`required parameter missing. example request body: {
     'name': 'value',
     'price': 'value',
     'category': 'value',
     'description': 'value'
   }`);
-  return;
+    return;
   }
   try {
-    let data = await productModel.findByIdAndUpdate(id, 
-      {
-        name : body.name,
-        price : body.price,
-        category : body.category,
-        description : body.description
-      },
-      {new : true}
-      ).exec();
+    let data = await productModel
+      .findByIdAndUpdate(
+        id,
+        {
+          name: body.name,
+          price: body.price,
+          category: body.category,
+          description: body.description,
+        },
+        { new: true }
+      )
+      .exec();
 
-    console.log('updated Data>>>', data)
+    console.log("updated Data>>>", data);
     res.send({
-      message : "Product updated successfully",
-      data : data
-    })
-    
+      message: "Product updated successfully",
+      data: data,
+    });
   } catch (error) {
     res.status(500).send({
-      message : "server error",
-    })
-    
+      message: "server error",
+    });
   }
-
-
 });
 
-app.delete('/products', (req, res)=>{
-  productModel.deleteMany({},(err, data)=>{
-    if(!err){
+app.delete("/products", (req, res) => {
+  productModel.deleteMany({}, (err, data) => {
+    if (!err) {
       res.send({
-        message : "All products has been successfully deleted."
-      })
-    }else{
+        message: "All products has been successfully deleted.",
+      });
+    } else {
       res.status(500).send({
-        message : 'error error'
-      })
+        message: "error error",
+      });
     }
-  })
-})
+  });
+});
 
-app.delete('/produc/:id', (req, res)=>{
-  const id = req.body.id;
-  
-  productModel.deleteOne({_id: id}, (err, deletedData)=>{
+app.delete("/product/:id", (req, res) => {
+  const id = req.params.id;
+  // console.log("id ", id)
+  productModel.deleteOne({ _id: id }, (err, deletedData) => {
     console.log("deleted Data >>> ", deletedData);
-    if(!err){
-      if(deletedData.deletedCount !== 0){
+    if (!err) {
+      if (deletedData.deletedCount !== 0) {
         res.send({
-          message : "Product has been deleted successfully."
-        })
-      }else{
+          message: "Product has been deleted successfully.",
+          data : deletedData
+        });
+      } else {
         res.send({
-          message : `No product found with this id: ${id}`
-        })
+          message: `No product found with this id: ${id}`,
+        });
       }
-    }else{
+    } else {
       res.status(500).send({
-        message : "server error"
-      })
+        message: "server error",
+      });
     }
-  })
-
-})
+  });
+});
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
