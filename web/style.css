@@ -5,7 +5,8 @@
 }
 
 #allProduct{
-  background-color: aqua;
+  /* background-color: aqua;   */
+  display: block;
 }
 
 .productDiv{
@@ -16,4 +17,7 @@
 }
 .editFalse{
   display: none;
+}
+.card-img-top{
+  height: 11rem;
 }

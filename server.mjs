@@ -20,7 +20,7 @@ const port = process.env.PORT || 5001;
 
 app.post("/product", (req, res) => {
   const body = req.body;
-  // console.log("My Product >>> ", body)
+  console.log("My Product >>> ", body)
   if (!body.name || !body.price || !body.category || !body.description) {
     res.status(400).send(`required parameter missing. example request body: {
       'name': 'value',

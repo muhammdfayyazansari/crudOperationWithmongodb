@@ -1,30 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>API Integration With Own Server </title>
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body onload="getAllProducts()">
-  <h1>Api Integration</h1>
-  <form onsubmit="addProduct(); return false">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mongodb Crud Operation</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  </head>
+  <body onload="getAllProducts()">
+      <!-- Button trigger modal -->
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-12  d-flex justify-content-center">
 
-    <input type="text" id="productName" placeholder="name"> <br>
-    <input type="number" id="price" placeholder="price"> <br>
-    <input type="text" id="category" placeholder="category"> <br>
-    <input type="text" id="description" placeholder="description"> <br>
-    <button type="submit">Ad Post</button>
-  </form>
-<h1 id="mongodbResult"></h1>
-<br>
-  <div id="allProduct">
+           <h2 class="fw-bolder text-capitalize text-center">Crud Operation Using Node Js Server With Mongodb Database</h2>
+          </div>
+        </div>
+      </div>
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-12  d-flex justify-content-end">
 
-  </div>
+            <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Add Product
+          </button>
+          </div>
+        </div>
+      </div>
+  
+    <h2 id="mongodbResult"></h2>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form onsubmit="addProduct(); return false;">
+          <!-- <form onsubmit="checkProduct(); return false;"> -->
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Modal title
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- ... -->
+
+              <div class="px-1">
+                <div class="mb-3">
+                  <label for="productName" class="form-label"
+                    >Product Name *</label
+                  >
+                  <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      id="productName"
+                      class="form-control"
+                      placeholder="Enter Product Name Here"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="price" class="form-label">Price *</label>
+                  <div class="input-group mb-3">
+                    <input
+                      type="number"
+                      id="price"
+                      class="form-control"
+                      placeholder="Enter Product Name Here"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="category" class="form-label">Category *</label>
+                  <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      id="category"
+                      class="form-control"
+                      placeholder="Enter Category Here"
+                    />
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <label for="description" class="form-label"
+                    >Description *</label
+                  >
+                  <div class="input-group">
+                    <textarea
+                      id="description"
+                      class="form-control"
+                      aria-label="With textarea"
+                    ></textarea>
+                  </div>
+                </div>
+               
+              </div>
+              <!-- ... -->
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+                Ad Product
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="p-3">
+      <form onsubmit="addProduct(); return false;">
+        <div class="mb-3">
+          <label for="productName" class="form-label"
+            >Product Name *</label
+          >
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              id="productName"
+              class="form-control"
+              placeholder="Enter Product Name Here"
+              aria-label="Username"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label">Price *</label>
+          <div class="input-group mb-3">
+            <input
+              type="number"
+              id="price"
+              class="form-control"
+              placeholder="Enter Product Name Here"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="category" class="form-label">Category *</label>
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              id="category"
+              class="form-control"
+              placeholder="Enter Category Here"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description *</label>
+          <div class="input-group">
+            <textarea
+              id="description"
+              class="form-control"
+              aria-label="With textarea"
+            ></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary"> Ad Product</button>
+      </form>
+    </div> -->
+
+    <!-- <h1>Api Integration</h1>
+    <form onsubmit="addProduct(); return false">
+      <input type="text" id="productName" placeholder="name" /> <br />
+      <input type="number" id="price" placeholder="price" /> <br />
+      <input type="text" id="category" placeholder="category" /> <br />
+      <input type="text" id="description" placeholder="description" /> <br />
+      <button type="submit">Ad Post</button>
+    </form> -->
+    <div class="container my-5" id="allProduct">
+      
+    </div>
+      
+   <!-- <div class="container bg-primary">
+    <div class="row">
+      <div class="col-12 col-md-3">
+        <div class="productDiv">
+          <div>
+            <h1>  Name : fayyaz ansari <br>
+                  Price : 500 <br>
+                  Category : sports <br>
+                  Description : no description <br>
+            </h1>
+    
+          </div>
+          <div class="deleteEdit"> 
+                <button class="delete" > Delete </button>
+                <button class="edit" > Edit </button>
+          </div>
+          <div class="editFalse" id="editFalse0">
+                <h1> Edit </h1>
+    
+                <input type="text" id="updatedName0" placeholder="name"> <br>
+                <input type="number" id="updatedPrice0" placeholder="price"> <br>
+                <input type="text" id="updatedCategory0" placeholder="category"> <br>
+                <input type="text" id="updatedDescription0" placeholder="description"> <br>
+                <button onclick="updateProduct('editFalse0', '63a9c289c089ad79f273a5b8', '0')"> submit</button>
+          </div>
+          
+        </div>
+      </div>
+     
+      <div class="col-12 col-md-3 px-1">
+
+        <div class="card" style="width: 100%;">
+          <img src="https://www.bugatti.com/fileadmin/_processed_/sei/p121/se-image-4f750982624e527a8b1003408e4febcf.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <h4 class="card-title fw-bolder">Price</h4>
+            <p class="card-text">Category: </p>
+            <p class="card-text">no description.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-12 col-md-3 px-1">
+        <div class="card" style="width: 100%;">
+          <img src="https://www.bugatti.com/fileadmin/_processed_/sei/p121/se-image-4f750982624e527a8b1003408e4febcf.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <h4 class="card-title fw-bolder">Price</h4>
+            <p class="card-text">Category: </p>
+            <p class="card-text">no description.</p>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-12 col-md-3 px-1">
+
+        <div class="card m-0 p-0" style="width: 100%; ">
+          <img src="https://www.bugatti.com/fileadmin/_processed_/sei/p121/se-image-4f750982624e527a8b1003408e4febcf.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <h4 class="card-title fw-bolder">Price</h4>
+            <p class="card-text">Category: </p>
+            <p class="card-text">no description.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+   </div> 
 
 
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="./app.js"></script>
-</body>
+ -->
+
+
+<!-- 
+    <div id="allProduct">
+    </div> -->
+     
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+      integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
 </html>
