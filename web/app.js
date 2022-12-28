@@ -3,7 +3,7 @@ let baseURL;
 if (url.split(":")[0] === "http") {
   baseURL = "http://localhost:5001";
 } else {
-  baseURL = "https://busy-pink-bullfrog-shoe.cyclic.app";
+  baseURL = "https://sore-ruby-jay-sock.cyclic.app";
 }
 
 let allProducts = [];
